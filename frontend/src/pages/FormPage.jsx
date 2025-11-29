@@ -1,3 +1,4 @@
+import React from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 import { api } from '../services/api';
@@ -41,12 +42,12 @@ const FormPage = () => {
 
   return (
     <div className="px-4 py-6 sm:px-0">
-      <div className="bg-white shadow rounded-lg">
+      <div className="bg-white dark:bg-gray-800 shadow rounded-lg">
         <div className="px-4 py-5 sm:p-6">
-          <h2 className="text-2xl font-bold text-gray-900 mb-2">
+          <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
             {schema.title}
           </h2>
-          <p className="text-gray-600 mb-6">{schema.description}</p>
+          <p className="text-gray-600 dark:text-gray-300 mb-6">{schema.description}</p>
           
           <DynamicForm 
             schema={schema} 

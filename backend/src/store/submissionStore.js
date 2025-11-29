@@ -17,9 +17,29 @@ class SubmissionStore {
     return submission;
   }
 
-  getAll({ page, limit, sortBy, sortOrder }) {
+  getAll({ page, limit, sortBy, sortOrder, search = '' }) {
+    // Filter by search term
+    let filtered = this.submissions;
+    
+    if (search) {
+      const searchLower = search.toLowerCase();
+      filtered = this.submissions.filter(submission => {
+        return Object.values(submission).some(value => {
+          if (typeof value === 'string') {
+            return value.toLowerCase().includes(searchLower);
+          }
+          if (Array.isArray(value)) {
+            return value.some(v => 
+              typeof v === 'string' && v.toLowerCase().includes(searchLower)
+            );
+          }
+          return false;
+        });
+      });
+    }
+
     // Sort submissions
-    const sorted = [...this.submissions].sort((a, b) => {
+    const sorted = [...filtered].sort((a, b) => {
       const aVal = a[sortBy];
       const bVal = b[sortBy];
       
@@ -40,8 +60,8 @@ class SubmissionStore {
       data: paginatedData,
       pagination: {
         currentPage: page,
-        totalPages: Math.ceil(this.submissions.length / limit),
-        totalItems: this.submissions.length,
+        totalPages: Math.ceil(filtered.length / limit),
+        totalItems: filtered.length,
         itemsPerPage: limit
       }
     };
@@ -49,6 +69,22 @@ class SubmissionStore {
 
   getById(id) {
     return this.submissions.find(sub => sub.id === id);
+  }
+
+  update(id, data) {
+    const index = this.submissions.findIndex(sub => sub.id === id);
+    if (index > -1) {
+      // Preserve id and createdAt, update other fields
+      this.submissions[index] = {
+        ...this.submissions[index],
+        ...data,
+        id: this.submissions[index].id,
+        createdAt: this.submissions[index].createdAt,
+        updatedAt: new Date().toISOString()
+      };
+      return this.submissions[index];
+    }
+    return null;
   }
 
   deleteById(id) {

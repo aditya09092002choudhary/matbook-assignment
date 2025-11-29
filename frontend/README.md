@@ -23,6 +23,8 @@ frontend/
 │   │   ├── FormField.jsx           # Individual field renderer
 │   │   ├── SubmissionsTable.jsx    # Table with pagination
 │   │   ├── SubmissionModal.jsx     # View submission details
+│   │   ├── EditSubmissionModal.jsx # Edit submission (BONUS)
+│   │   ├── DeleteConfirmModal.jsx  # Delete confirmation (BONUS)
 │   │   ├── LoadingSpinner.jsx      # Loading state
 │   │   └── ErrorMessage.jsx        # Error display
 │   ├── pages/
@@ -96,6 +98,14 @@ The application will start on `http://localhost:3000`
 - ✅ Submission viewing modal
 - ✅ Responsive design
 
+### Bonus Features ✅
+- ✅ **CSV Export** - Export all submissions to CSV file
+- ✅ **Edit Submission** - Update existing submissions with validation
+- ✅ **Delete Submission** - Delete submissions with confirmation modal
+- ✅ **Dark Mode** - Toggle between light and dark themes
+- ✅ **Debounced Search** - Real-time search with 500ms debounce
+- ✅ Search persists in localStorage
+
 ### Validation Rules ✅
 - ✅ Required fields
 - ✅ minLength / maxLength
@@ -115,6 +125,10 @@ The application will start on `http://localhost:3000`
 - ✅ Previous/Next pagination
 - ✅ Total submissions count
 - ✅ Empty state handling
+- ✅ Edit/Delete action buttons
+- ✅ CSV download functionality
+- ✅ Dark mode toggle in header
+- ✅ Search with debouncing
 
 ## Pages
 
@@ -131,13 +145,18 @@ The application will start on `http://localhost:3000`
 - Server-side pagination
 - Sortable by created date (asc/desc)
 - Adjustable items per page
+- Search functionality with debouncing
 - View submission details in modal
+- Edit submission in modal
+- Delete with confirmation
+- Export to CSV
 - Shows page info and total count
 
 ## Component Architecture
 
 ### Layout
 - Navigation bar with routes
+- Dark mode toggle
 - Responsive container
 - Consistent styling
 
@@ -146,6 +165,7 @@ The application will start on `http://localhost:3000`
 - Manages form state
 - Handles submission
 - Shows errors and success messages
+- Supports initial values for editing
 
 ### FormField
 - Renders field based on type
@@ -158,12 +178,20 @@ The application will start on `http://localhost:3000`
 - Server-side pagination
 - Sorting controls
 - Items per page selector
-- Opens modal for viewing
+- Action buttons (View/Edit/Delete)
+- CSV export button
+- Opens modals for actions
 
-### SubmissionModal
-- Displays all submission data
-- Formats dates and arrays
-- Responsive overlay
+### EditSubmissionModal
+- Fetches form schema
+- Populates form with current values
+- Validates updates
+- Saves changes to backend
+
+### DeleteConfirmModal
+- Confirms deletion
+- Shows submission ID
+- Prevents accidental deletion
 
 ## API Integration
 
@@ -171,21 +199,58 @@ The frontend communicates with the backend API at `http://localhost:3001/api`:
 
 - `GET /api/form-schema` - Fetch form structure
 - `POST /api/submissions` - Submit form data
-- `GET /api/submissions?page=1&limit=10&sortBy=createdAt&sortOrder=desc` - Get submissions
+- `GET /api/submissions?page=1&limit=10&sortBy=createdAt&sortOrder=desc&search=term` - Get submissions
+- `GET /api/submissions/:id` - Get single submission
+- `PUT /api/submissions/:id` - Update submission
+- `DELETE /api/submissions/:id` - Delete submission
 
 ## Styling
 
 - Tailwind CSS utility classes
+- Dark mode support via `dark:` classes
 - Consistent color scheme (blue primary)
 - Hover and focus states
 - Responsive breakpoints
 - Accessible form controls
+
+## Bonus Features Details
+
+### CSV Export
+- Exports all current page submissions
+- Handles arrays and special characters
+- Downloads with timestamp in filename
+- Properly escapes CSV values
+
+### Edit Functionality
+- Opens modal with pre-filled form
+- Validates updates against schema
+- Shows success/error feedback
+- Refreshes table after update
+
+### Delete Functionality
+- Confirmation modal prevents accidents
+- Shows submission ID for verification
+- Loading state during deletion
+- Refreshes table after deletion
+
+### Dark Mode
+- Toggle in navigation bar
+- Persists preference in localStorage
+- Applies to all components
+- Smooth transitions
+
+### Debounced Search
+- 500ms delay prevents excessive API calls
+- Resets to page 1 on new search
+- Shows "No results" for empty searches
+- Searches across all fields
 
 ## Assumptions
 - Backend is running on port 3001
 - All API responses follow documented format
 - Form schema contains all required validation rules
 - Submissions are sorted by `createdAt` only
+- Search is case-insensitive
 
 ## Known Issues
 None currently
@@ -196,10 +261,10 @@ None currently
 - Safari (latest)
 - Edge (latest)
 
-## Future Enhancements (Optional)
-- CSV export functionality
-- Edit/Delete submissions
-- Dark mode
-- Search/filter submissions
-- URL state synchronization
-- Debounced search input
+## Future Enhancements
+- URL state synchronization for pagination/search
+- Bulk operations (delete multiple)
+- Advanced filtering options
+- Export to other formats (JSON, Excel)
+- Inline editing in table
+- Submission history/audit log

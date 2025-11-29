@@ -27,6 +27,7 @@ export const getSubmissions = (req, res) => {
     const limit = parseInt(req.query.limit) || 10;
     const sortBy = req.query.sortBy || 'createdAt';
     const sortOrder = req.query.sortOrder || 'desc';
+    const search = req.query.search || '';
 
     // Validate parameters
     if (page < 1 || limit < 1 || limit > 100) {
@@ -47,7 +48,8 @@ export const getSubmissions = (req, res) => {
       page,
       limit,
       sortBy,
-      sortOrder
+      sortOrder,
+      search
     });
 
     res.status(200).json(result);
@@ -55,6 +57,83 @@ export const getSubmissions = (req, res) => {
     res.status(500).json({
       success: false,
       message: 'Failed to fetch submissions',
+      error: error.message
+    });
+  }
+};
+
+export const getSubmissionById = (req, res) => {
+  try {
+    const { id } = req.params;
+    const submission = submissionStore.getById(id);
+    
+    if (!submission) {
+      return res.status(404).json({
+        success: false,
+        message: 'Submission not found'
+      });
+    }
+    
+    res.status(200).json({
+      success: true,
+      data: submission
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: 'Failed to fetch submission',
+      error: error.message
+    });
+  }
+};
+
+export const updateSubmission = (req, res) => {
+  try {
+    const { id } = req.params;
+    const updateData = req.body;
+    
+    const updatedSubmission = submissionStore.update(id, updateData);
+    
+    if (!updatedSubmission) {
+      return res.status(404).json({
+        success: false,
+        message: 'Submission not found'
+      });
+    }
+    
+    res.status(200).json({
+      success: true,
+      data: updatedSubmission
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: 'Failed to update submission',
+      error: error.message
+    });
+  }
+};
+
+export const deleteSubmission = (req, res) => {
+  try {
+    const { id } = req.params;
+    const deleted = submissionStore.deleteById(id);
+    
+    if (!deleted) {
+      return res.status(404).json({
+        success: false,
+        message: 'Submission not found'
+      });
+    }
+    
+    res.status(200).json({
+      success: true,
+      message: 'Submission deleted successfully'
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: 'Failed to delete submission',
       error: error.message
     });
   }

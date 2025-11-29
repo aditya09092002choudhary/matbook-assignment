@@ -32,7 +32,7 @@ const SubmissionModal = ({ submission, onClose }) => {
         />
 
         {/* Modal */}
-        <div className="relative inline-block w-full max-w-2xl px-4 pt-5 pb-4 overflow-hidden text-left align-bottom transition-all transform bg-white rounded-lg shadow-xl sm:my-8 sm:align-middle sm:p-6">
+        <div className="relative inline-block w-full max-w-2xl px-4 pt-5 pb-4 overflow-hidden text-left align-bottom transition-all transform bg-white dark:bg-gray-800 rounded-lg shadow-xl sm:my-8 sm:align-middle sm:p-6">
           <div className="absolute top-0 right-0 pt-4 pr-4">
             <button
               onClick={onClose}
@@ -44,17 +44,17 @@ const SubmissionModal = ({ submission, onClose }) => {
 
           <div className="sm:flex sm:items-start">
             <div className="w-full mt-3 text-center sm:mt-0 sm:text-left">
-              <h3 className="text-lg font-medium leading-6 text-gray-900 mb-4">
+              <h3 className="text-lg font-medium leading-6 text-gray-900 dark:text-white mb-4">
                 Submission Details
               </h3>
 
               <div className="space-y-4">
                 {Object.entries(submission).map(([key, value]) => (
-                  <div key={key} className="border-b border-gray-200 pb-3">
-                    <dt className="text-sm font-medium text-gray-500">
+                  <div key={key} className="border-b border-gray-200 dark:border-gray-700 pb-3">
+                    <dt className="text-sm font-medium text-gray-500 dark:text-gray-400">
                       {formatLabel(key)}
                     </dt>
-                    <dd className="mt-1 text-sm text-gray-900">
+                    <dd className="mt-1 text-sm text-gray-900 dark:text-gray-100">
                       {formatValue(key, value)}
                     </dd>
                   </div>
@@ -64,7 +64,7 @@ const SubmissionModal = ({ submission, onClose }) => {
               <div className="mt-6 flex justify-end">
                 <button
                   onClick={onClose}
-                  className="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                  className="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500 dark:focus:ring-offset-gray-800"
                 >
                   Close
                 </button>

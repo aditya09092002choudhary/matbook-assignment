@@ -24,8 +24,8 @@ const FormField = ({ field, form }) => {
   const isTouched = fieldMeta?.isTouched;
   const showError = isTouched && errors.length > 0;
 
-  const baseInputClass = "w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors";
-  const errorClass = showError ? "border-red-500" : "border-gray-300";
+  const baseInputClass = "w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition-colors bg-white dark:bg-gray-800 dark:border-gray-600 dark:text-white";
+  const errorClass = showError ? "border-red-500 dark:border-red-500" : "border-gray-300 dark:border-gray-600";
 
   const renderInput = () => {
     switch (field.type) {
@@ -110,9 +110,9 @@ const FormField = ({ field, form }) => {
                     handleChange(newValues);
                   }}
                   onBlur={handleBlur}
-                  className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                  className="w-4 h-4 text-amber-600 border-gray-300 dark:border-gray-600 rounded focus:ring-amber-500 dark:bg-gray-700"
                 />
-                <span className="text-sm text-gray-700">{opt.label}</span>
+                <span className="text-sm text-gray-700 dark:text-gray-300">{opt.label}</span>
               </label>
             ))}
           </div>
@@ -130,14 +130,14 @@ const FormField = ({ field, form }) => {
                 className="sr-only"
               />
               <div className={`w-11 h-6 rounded-full transition-colors ${
-                fieldValue ? 'bg-blue-600' : 'bg-gray-300'
+                fieldValue ? 'bg-amber-600' : 'bg-gray-300 dark:bg-gray-600'
               }`}>
                 <div className={`absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full transition-transform ${
                   fieldValue ? 'transform translate-x-5' : ''
                 }`} />
               </div>
             </div>
-            <span className="text-sm text-gray-700">{field.label}</span>
+            <span className="text-sm text-gray-700 dark:text-gray-300">{field.label}</span>
           </label>
         );
 
@@ -149,7 +149,7 @@ const FormField = ({ field, form }) => {
   return (
     <div className="space-y-2">
       {field.type !== 'switch' && (
-        <label className="block text-sm font-medium text-gray-700">
+        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
           {field.label}
           {field.validation?.required && (
             <span className="text-red-500 ml-1">*</span>
@@ -160,7 +160,7 @@ const FormField = ({ field, form }) => {
       {renderInput()}
       
       {showError && (
-        <p className="text-sm text-red-600">{errors[0]}</p>
+        <p className="text-sm text-red-600 dark:text-red-400">{errors[0]}</p>
       )}
     </div>
   );
