@@ -428,10 +428,6 @@ Delete a submission.
 
 ## License
 MIT
-
-## Author
-MatBook Assignment Submission
-
 ---
 
 ## Summary of Implementation
