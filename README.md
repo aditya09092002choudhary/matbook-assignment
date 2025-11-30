@@ -3,6 +3,11 @@
 ## Overview
 A full-stack dynamic form builder system that allows for schema-driven form rendering, validation, and submission management with a modern tech stack.
 
+## 🚀 Live Deployment
+
+- **Frontend**: https://dynamic-form-builder-v1.netlify.app/
+- **Backend API**: https://dynamic-form-builder-wj6j.onrender.com/api
+
 ## Milestone Completion Status
 
 ### ✅ Milestone 1 - Frontend Development
